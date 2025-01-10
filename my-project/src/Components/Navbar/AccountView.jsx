@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate,Link} from 'react-router-dom';
 import { BsBorderStyle } from "react-icons/bs";
+import Ips from '../API.js';
 
 const AccountView = () => {
   const [selectedSection, setSelectedSection] = useState('');

@@ -123,7 +123,7 @@ const EditProducts = () => {
             )}
           </div>
 
-          {/* Hover Image Input */}
+      
           <div>
             <label className="block text-red-500 mb-1">Hover Image</label>
             <input

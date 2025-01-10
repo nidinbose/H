@@ -15,7 +15,7 @@ const Overview3 = () => {
 
   return (
     <div
-      className="min-h-screen bg-cover bg-fixed bg-center xl:pb-20"
+      className="min-h-full bg-cover bg-fixed bg-center xl:pb-20"
       style={{
         backgroundImage: "url('https://i.pinimg.com/originals/d2/79/b9/d279b98cf538ab5765696a81ce2ef694.webp')",
         backgroundPositionY: `${offsetY * 0.5}px`,
