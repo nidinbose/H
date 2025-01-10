@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Typography, Input, Button } from "@material-tailwind/react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import axios from "axios"; 
+import Ips from "../API.js";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -49,7 +50,8 @@ const Login = () => {
     setErrors({});
 
     try {
-      const response = await axios.post("http://16.170.206.64/api/login", {
+      const domain=Ips();
+      const response = await axios.post(`${domain}login`, {
         email: formData.email,
         password: formData.password,
       });

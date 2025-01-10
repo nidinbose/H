@@ -16,7 +16,7 @@ const Product4 = () => {
       console.log(Ips());
       
       const domain=Ips();
-      const res = await axios.get(`${domain}/getcase`);
+      const res = await axios.get(`${domain}getcase`);
       setProducts(res.data);
     } catch (error) {
       console.error("Error fetching product data:", error);
