@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Ips from "../API.js";
 
 const AddProducts = () => {
   const [formData, setFormData] = useState({
@@ -79,7 +80,8 @@ const AddProducts = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3003/api/addcase", formData);
+      const domain=Ips();
+      const response = await axios.post(`${domain}addcase`, formData);
       console.log("Response:", response.data);
       alert("Product added successfully!");
     } catch (error) {

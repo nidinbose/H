@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Typography, Input, Button } from "@material-tailwind/react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import axios from "axios"; 
+import Ips from "../API.js";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -49,7 +50,8 @@ const AdminLogin = () => {
     setErrors({});
 
     try {
-      const response = await axios.post("http://localhost:3003/api/adminlogin", {
+      const domain=Ips();
+      const response = await axios.post(`${domain}adminlogin`, {
         email: formData.email,
         password: formData.password,
       });

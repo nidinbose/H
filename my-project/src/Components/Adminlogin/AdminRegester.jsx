@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
 import { Typography, Input, Button } from "@material-tailwind/react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
+import Ips from "../API.js";
 
 const AdminRegister = () => {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ const AdminRegister = () => {
     username: '',
     password: '',
     cpassword: '',
-    role: 'admin', // The role is hardcoded as 'admin' for this form
+    role: 'admin', 
   });
   const [passwordShown, setPasswordShown] = useState(false);
   const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
@@ -30,18 +31,19 @@ const AdminRegister = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Ensure password and confirm password match
+   
     if (formData.password !== formData.cpassword) {
       console.error('Passwords do not match');
       return;
     }
 
     try {
-      const response = await axios.post('http://localhost:3003/api/adminregester', formData); 
+      const domain=Ips();
+      const response = await axios.post(`${domain}adminregester`, formData); 
 
       if (response.status === 201) {
         console.log('Registration successful');
-        navigate('/adminlogin');  // Redirect to login page after successful registration
+        navigate('/adminlogin'); 
       } else {
         console.log('Registration failed');
       }
