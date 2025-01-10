@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate,Link } from "react-router-dom";
 import { MdDeleteSweep } from "react-icons/md";
+import Ips from "./API.js";
 
 
 const Cart = () => {
@@ -13,7 +14,8 @@ const Cart = () => {
 
   const getCartItems = async () => {
     try {
-      const response = await axios.get(`http://localhost:3003/api/cart/${userId}`, {
+      const domain=Ips();
+      const response = await axios.get(`${domain}cart/${userId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCartItems(response.data.items);
@@ -32,7 +34,8 @@ const Cart = () => {
   };
 
   const updateCartItems = async () => {
-    const response = await axios.get(`http://localhost:3003/api/cart/${userId}`, {
+    const domain=Ips();
+    const response = await axios.get(`${domain}cart/${userId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     setCartItems(response.data.items);
@@ -41,8 +44,9 @@ const Cart = () => {
 
   const removeFromCart = async (productId) => {
     try {
+      const domain=Ips();
       await axios.post(
-        'http://localhost:3003/api/remove-from-cart',
+        `${domain}remove-from-cart`,
         { userId, productId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -54,7 +58,8 @@ const Cart = () => {
 
   const incrementCartItem = async (productId) => {
     try {
-      await axios.post('http://localhost:3003/api/increment-cart-item', { userId, productId }, {
+      const domain=Ips();
+      await axios.post(`${domain}increment-cart-item`, { userId, productId }, {
         headers: { Authorization: `Bearer ${token}` },
       });
       updateCartItems();
@@ -65,7 +70,8 @@ const Cart = () => {
 
   const decrementQuantity = async (productId) => {
     try {
-      await axios.post('http://localhost:3003/api/decrement-cart-item', { userId, productId }, {
+      const domain=Ips();
+      await axios.post(`${domain}decrement-cart-item`, { userId, productId }, {
         headers: { Authorization: `Bearer ${token}` },
       });
       updateCartItems();
@@ -101,8 +107,7 @@ const Cart = () => {
 
   if (cartItems.length === 0) {
     return<div className="container mx-auto px-4 py-8 text-center text-white xl:mb-20 xl:mt-20">
-    {/* Illustration or icon */}
-    <div className="flex justify-center mb-6">
+       <div className="flex justify-center mb-6">
       <img
       src={`https://www.shutterstock.com/shutterstock/videos/1059212528/thumb/9.jpg?ip=x480`}
         alt="Empty Cart"
@@ -110,7 +115,7 @@ const Cart = () => {
       />
     </div>
 
-    {/* Main empty cart message */}
+  
     <h2 className="text-2xl font-semibold mb-4">Your cart is empty</h2>
     <p className="text-lg mb-6">
       Looks like you haven't added anything to your cart yet.
@@ -177,8 +182,7 @@ const Cart = () => {
             ))}
           </div>
 
-          {/* Order Summary */}
-          <div className="w-full lg:w-[22rem]">
+                 <div className="w-full lg:w-[22rem]">
             <div className="p-6 bg-white/10 shadow-md rounded-md">
               <h2 className="text-xl font-bold text-red-500 mb-6">Order Summary</h2>
               <div className="flex items-center justify-between text-sm text-gray-800 mb-4">
