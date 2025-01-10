@@ -17,6 +17,7 @@ import { RiLogoutBoxLine } from "react-icons/ri";
 import { LuPackage2 } from "react-icons/lu"; 
 import { FaShoppingBag } from "react-icons/fa"; 
 import { FaRupeeSign } from "react-icons/fa";
+import Ips from "./API.js";
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
 
@@ -32,7 +33,7 @@ const Admin = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-
+    const domain=Ips();
     if (!token) {
       alert("Please log in to continue.");
       navigate("/adminlogin");
@@ -41,7 +42,7 @@ const Admin = () => {
 
  
     axios
-      .get("http://localhost:3003/api/adminhomelog", {
+      .get(`${domain}adminhomelog`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
@@ -64,7 +65,7 @@ const Admin = () => {
     if (user.role === "admin") {
       const fetchUserCount = async () => {
         try {
-          const response = await axios.get("http://localhost:3003/api/usercount");
+          const response = await axios.get(`${domain}usercount`);
           setUserCount(response.data.count);
         } catch (error) {
           console.error("Error fetching user count:", error);
@@ -73,7 +74,7 @@ const Admin = () => {
 
       const fetchProductCount = async () => {
         try {
-          const response = await axios.get("http://localhost:3003/api/productcount");
+          const response = await axios.get(`${domain}productcount`);
           setProductCount(response.data.count);
         } catch (error) {
           console.error("Error fetching product count:", error);
@@ -82,7 +83,7 @@ const Admin = () => {
 
       const fetchOrderCount = async () => {
         try {
-          const response = await axios.get("http://localhost:3003/api/ordercount");
+          const response = await axios.get(`${domain}ordercount`);
           setOrderCount(response.data.count);
         } catch (error) {
           console.error("Error fetching order count:", error);
@@ -91,7 +92,7 @@ const Admin = () => {
 
       const fetchFullCount = async () => {
         try {
-          const response = await axios.get("http://localhost:3003/api/fullrevenue");
+          const response = await axios.get(`${domain}fullrevenue`);
           setFullCount(response.data.totalRevenue);
         } catch (error) {
           console.error("Error fetching full count:", error);
