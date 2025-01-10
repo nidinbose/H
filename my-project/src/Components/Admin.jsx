@@ -329,43 +329,31 @@ const Admin = () => {
 
 
     </div>
-{/* Charts Section */}
 <div className="mt-8 space-y-8">
 <div className="flex flex-col md:flex-row md:space-x-8">
 <div className="flex-1 p-6">
-  {/* Statistics Grid */}
   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-    {/* Card 1 */}
-    <div className="bg-white/10 p-6 rounded-lg shadow-lg">
+       <div className="bg-white/10 p-6 rounded-lg shadow-lg">
       <h3 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-blue-400 to-red-900">Total Sales</h3>
       <p className="text-3xl font-bold mt-2 text-white/30">$30,000</p>
     </div>
-
-    {/* Card 2 */}
     <div className="bg-white/10 p-6 rounded-lg shadow-lg">
       <h3 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-blue-400 to-red-900">Monthly Growth</h3>
       <p className="text-3xl font-bold mt-2 text-white/30">+15%</p>
     </div>
-
-    {/* Card 3 */}
     <div className="bg-white/10 p-6 rounded-lg shadow-lg">
       <h3 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-blue-400 to-red-900">Top Performing Product</h3>
       <p className="text-3xl font-bold mt-2 text-white/30">Product XYZ</p>
     </div>
-
-    {/* Card 4 */}
     <div className="bg-white/10 p-6 rounded-lg shadow-lg pb-3">
       <h3 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-blue-400 to-red-900">Total Orders</h3>
       <p className="text-3xl font-bold mt-2 text-white/30">1200</p>
     </div>
-
-    {/* Card 5 */}
     <div className="bg-white/10 p-6 rounded-lg shadow-lg">
       <h3 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-blue-400 to-red-900">Average Order Value</h3>
       <p className="text-3xl font-bold mt-2 text-white/30">$25</p>
     </div>
 
-    {/* Card 6 */}
     <div className="bg-white/10 p-6 rounded-lg shadow-lg">
       <h3 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-blue-400 to-red-900">New Customers</h3>
       <p className="text-3xl font-bold mt-2 text-white/30">300</p>
@@ -387,7 +375,6 @@ const Admin = () => {
   </div>
   
 
-  {/* Mobile Menu */}
   {isMobileMenuOpen && (
     <div
       id="mobile-menu"

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Typography, Input, Button } from "@material-tailwind/react";
 import axios from "axios";
+import Ips from "../API.js";
 
 const ForgotPassword = () => {
   const [formData, setFormData] = useState({ email: "" });
@@ -9,7 +10,7 @@ const ForgotPassword = () => {
   const [loading, setLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
-  const navigate = useNavigate(); // for redirecting
+  const navigate = useNavigate(); 
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -38,7 +39,8 @@ const ForgotPassword = () => {
     setSuccessMessage("");
 
     try {
-      const response = await axios.post("http://localhost:3003/api/userforgot", {
+      const domain=Ips();
+      const response = await axios.post(`${domain}userforgot`, {
         email: formData.email,
       });
 

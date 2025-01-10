@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Ips from "../API.js";
 
 const OrdersList = () => {
   const [orders, setOrders] = useState([]);
@@ -11,7 +12,8 @@ const OrdersList = () => {
 
   const getData = async () => {
     try {
-      const res = await axios.get("http://localhost:3003/api/admin/getordersadmin");
+      const domain=Ips();
+      const res = await axios.get(`${domain}admin/getordersadmin`);
       setOrders(res.data);
     } catch (err) {
       setError("Failed to fetch orders. Please try again.");
@@ -22,7 +24,8 @@ const OrdersList = () => {
 
   const handleUpdateStatus = async (orderId) => {
     try {
-      await axios.patch(`http://localhost:3003/api/admin/updatestatus/${orderId}`, {
+      const domain=Ips();
+      await axios.patch(`${domain}admin/updatestatus/${orderId}`, {
         status: newStatus,
       });
       setOrders((prevOrders) =>

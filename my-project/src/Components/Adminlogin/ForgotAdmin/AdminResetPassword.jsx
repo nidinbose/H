@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Typography, Input, Button } from "@material-tailwind/react";
 import axios from "axios";
+import Ips from "../../API.js";
 
 const ResetPassword = () => {
   const [formData, setFormData] = useState({ otp: "", newPassword: "" });
@@ -9,13 +10,9 @@ const ResetPassword = () => {
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
-
-  // Handle form field changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
-  // Validate inputs
   const validateInputs = () => {
     let formErrors = {};
     if (!formData.otp) {
@@ -28,8 +25,6 @@ const ResetPassword = () => {
     }
     return formErrors;
   };
-
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formErrors = validateInputs();
@@ -43,14 +38,15 @@ const ResetPassword = () => {
     setSuccessMessage("");
 
     try {
-      const response = await axios.post("http://localhost:3003/api/resetadminpassword", {
+      const domain=Ips();
+      const response = await axios.post(`${domain}resetadminpassword`, {
         otp: formData.otp,
         newPassword: formData.newPassword,
       });
 
       setSuccessMessage("Password has been reset successfully.");
       setTimeout(() => {
-        navigate("/adminlogin"); // Redirect to login after success
+        navigate("/adminlogin"); 
       }, 2000);
     } catch (error) {
       setErrors({ submit: error.response?.data?.msg || "Something went wrong." });

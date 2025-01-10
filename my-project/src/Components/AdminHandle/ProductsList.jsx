@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import Ips from "../API.js";
 
 const ProductList = () => {
   const [hoveredProduct, setHoveredProduct] = useState(null);
@@ -21,7 +22,8 @@ const ProductList = () => {
 
   const getCase = async () => {
     try {
-      const res = await axios.get("http://localhost:3003/api/getcase");
+      const domain=Ips();
+      const res = await axios.get(`${domain}getcase`);
       setProducts(res.data);
     } catch (error) {
       console.error("Error fetching product data:", error);

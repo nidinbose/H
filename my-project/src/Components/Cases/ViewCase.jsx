@@ -3,6 +3,7 @@ import { motion, useViewportScroll, useTransform } from "framer-motion";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import Relate1 from "../Monitors/Relate2";
+import Ips from "../API.js";
 
 const ViewCase = () => {
   const { id } = useParams();
@@ -24,7 +25,8 @@ const ViewCase = () => {
   };
   const getCase = async () => {
     try {
-      const res = await axios.get(`http://localhost:3003/api/getcaseedit/${id}`);
+      const domain=Ips();
+      const res = await axios.get(`${domain}getcaseedit/${id}`);
       setProduct(res.data);
     } catch (error) {
       console.error("Error fetching case data:", error);
@@ -55,8 +57,8 @@ const ViewCase = () => {
         price: product?.price,
         imageLink: product?.linkvf,
       };
-
-      await axios.post('http://localhost:3003/api/add-to-cart', data, config);
+      const domain=Ips();
+      await axios.post(`${domain}add-to-cart`, data, config);
       alert("Product added to cart successfully!");
     } catch (error) {
       console.error("Error adding product to cart:", error);

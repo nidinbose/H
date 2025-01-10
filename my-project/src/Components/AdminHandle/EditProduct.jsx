@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
+import Ips from "../API.js";
 
 const EditProducts = () => {
   const { id } = useParams();
@@ -63,7 +64,8 @@ const EditProducts = () => {
 
   const updateProduct = async () => {
     try {
-      const res = await axios.patch(`http://localhost:3003/api/updatecase/${id}`, data);
+      const domain=Ips();
+      const res = await axios.patch(`${domain}updatecase/${id}`, data);
       if (res.status === 201) {
         alert("Product updated successfully!");
         navigate("/admin/productslist"); 
@@ -76,7 +78,8 @@ const EditProducts = () => {
 
   const getProduct = async () => {
     try {
-      const res = await axios.get(`http://localhost:3003/api/getcaseedit/${id}`);
+      const domain=Ips();
+      const res = await axios.get(`${domain}getcaseedit/${id}`);
       setData(res.data);  
       setIsEditing(true);
       setPreviewImage(res.data.imagelink);

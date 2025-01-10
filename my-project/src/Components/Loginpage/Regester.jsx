@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';  // Import useNavigate and Link
+import { useNavigate, Link } from 'react-router-dom';  
 import { Typography, Input, Button } from "@material-tailwind/react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
+import Ips from '../API.js';
 
 function Signup() {
   const [formData, setFormData] = useState({
@@ -46,9 +47,10 @@ function Signup() {
     }
 
     try {
-      const response = await axios.post('http://localhost:3003/api/user', formData);
+      const domain=Ips();
+      const response = await axios.post(`${domain}user`, formData);
       alert('Signup successful!');
-      navigate('/login');  // Navigate to the login page after signup
+      navigate('/login');  
     } catch (error) {
       console.error('Error during signup:', error);
       alert('Signup failed!');
@@ -65,8 +67,7 @@ function Signup() {
           Enter your details to register an account
         </Typography>
         <form onSubmit={handleSubmit} className="mx-auto max-w-[24rem]">
-          {/* Email Field */}
-          <div className="mb-6">
+                   <div className="mb-6">
             <label htmlFor="email">
               <Typography variant="small" className="mb-2 block font-medium text-gray-900">
                 Your Email
@@ -86,8 +87,7 @@ function Signup() {
             />
           </div>
 
-          {/* Username Field */}
-          <div className="mb-6">
+                    <div className="mb-6">
             <label htmlFor="username">
               <Typography variant="small" className="mb-2 block font-medium text-gray-900">
                 Username
@@ -106,8 +106,6 @@ function Signup() {
               labelProps={{ className: "hidden" }}
             />
           </div>
-
-          {/* Password Field */}
           <div className="mb-6 relative">
             <label htmlFor="password">
               <Typography variant="small" className="mb-2 block font-medium text-gray-900">
@@ -138,8 +136,6 @@ function Signup() {
               }
             />
           </div>
-
-          {/* Confirm Password Field */}
           <div className="mb-6 relative">
             <label htmlFor="cpassword">
               <Typography variant="small" className="mb-2 block font-medium text-gray-900">
@@ -170,13 +166,9 @@ function Signup() {
               }
             />
           </div>
-
-          {/* Submit Button */}
           <Button type="submit" color="gray" size="lg" className="mt-6 h-12" fullWidth>
             Register
           </Button>
-
-          {/* Link to Sign In */}
           <Typography variant="small" color="gray" className="mt-4 text-center font-normal">
             Already registered?{" "}
             <Link to={`/adminlogin`} className="font-medium text-gray-900">

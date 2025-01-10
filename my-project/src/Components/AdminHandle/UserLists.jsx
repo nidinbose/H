@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { MdDelete } from "react-icons/md";
+import Ips from '../API.js';
 
 const UserLists = () => {
   const [users, setUsers] = useState([]);
@@ -8,7 +9,8 @@ const UserLists = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:3003/api/admin/userlists');
+        const domain=Ips();
+        const response = await axios.get(`${domain}admin/userlists`);
         setUsers(response.data);
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -20,7 +22,8 @@ const UserLists = () => {
 
   const deleteUser = async (userId) => {
     try {
-      await axios.delete(`http://localhost:3003/api/admin/deleteuser/${userId}`);
+      const domain=Ips();
+      await axios.delete(`${domain}admin/deleteuser/${userId}`);
       setUsers(users.filter(user => user._id !== userId));
     } catch (error) {
       console.error('Error deleting user:', error);

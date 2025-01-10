@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Typography, Input, Button } from "@material-tailwind/react";
 import axios from "axios";
+import Ips from "../../API.js";
 
 const AdminForgotPassword = () => {
   const [formData, setFormData] = useState({ email: "" });
@@ -38,14 +39,13 @@ const AdminForgotPassword = () => {
     setSuccessMessage("");
 
     try {
-      const response = await axios.post("http://localhost:3003/api/adminforgot", {
+      const domain=Ips();
+      const response = await axios.post(`${domain}adminforgot`, {
         email: formData.email,
       });
 
       setEmailSent(true);
       setSuccessMessage("OTP has been sent to your email.");
-
-      // Navigate to reset password page with the email state
       navigate("/adminresetpassword", { state: { email: formData.email } });
     } catch (error) {
       setErrors({ submit: error.response?.data?.error || "Something went wrong." });

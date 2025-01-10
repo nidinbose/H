@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { GrSearch } from "react-icons/gr";
+import Ips from "../API.js";
 
 const Product3 = () => {
   const [hoveredProduct, setHoveredProduct] = useState(null);
@@ -12,7 +13,8 @@ const Product3 = () => {
 
   const getCase = async () => {
     try {
-      const res = await axios.get("http://localhost:3003/api/getcase");
+      const domain=Ips();
+      const res = await axios.get(`${domain}getcase`);
       setProducts(res.data);
     } catch (error) {
       console.error("Error fetching product data:", error);
@@ -46,7 +48,8 @@ const Product3 = () => {
       };
 
       console.log(data);
-      await axios.post("http://localhost:3003/api/add-to-cart", data, config);
+      const domain=Ips();
+      await axios.post(`${domain}add-to-cart`, data, config);
       alert("Product added to cart successfully!");
     } catch (error) {
       console.error("Error adding product to cart:", error);

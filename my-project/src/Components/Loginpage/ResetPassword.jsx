@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Typography, Input, Button } from "@material-tailwind/react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
-import axios from "axios"; // Import Axios
+import axios from "axios"; 
+import Ips from "../API.js";
 
 const UserResetPassword = () => {
   const navigate = useNavigate();
@@ -53,14 +54,14 @@ const UserResetPassword = () => {
     setErrors({});
 
     try {
-      const response = await axios.post("http://localhost:3003/api/resetuserpassword", {
-        otp: formData.otp, // OTP is included here
+      const domain=Ips();
+      const response = await axios.post(`${domain}resetuserpassword`, {
+        otp: formData.otp, 
         newPassword: formData.newPassword,
         confirmPassword: formData.confirmPassword,
       });
 
-      // If password reset is successful, redirect to login page
-      navigate("/login");
+           navigate("/login");
     } catch (error) {
       setErrors({ submit: error.response?.data?.error || "Something went wrong" });
     } finally {

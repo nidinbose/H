@@ -7,6 +7,7 @@ import { MdShoppingCart } from 'react-icons/md';
 import { SlUserFollow } from 'react-icons/sl';
 import { TbCircleDotted } from "react-icons/tb";
 import { PiUserFocusThin } from "react-icons/pi";
+import Ips from "./API.js";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -20,9 +21,10 @@ const Navbar = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
+        const domain=Ips();
         const token = localStorage.getItem("token");
         if (token) {
-          const response = await axios.get("http://localhost:3003/api/home", {
+          const response = await axios.get(`${domain}home`, {
             headers: { Authorization: `Bearer ${token}` },
           });
           const { username } = response.data.user;
@@ -263,7 +265,7 @@ const Navbar = () => {
    
           <div className="p-4  border-t border-red-500 font-bold font-mono flex gap-7 items-center">
          
-            <img src="http://localhost:5173/images/Santics.png" alt="" className="h-16 w-16" />
+            <img src="/images/Santics.png" alt="" className="h-16 w-16" />
             <h1>Santics gaming</h1>
           </div>
         </div>
