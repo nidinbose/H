@@ -16,7 +16,7 @@ const Product4 = () => {
       console.log(Ips());
       
       const domain=Ips();
-      const res = await axios.get(`${domain}/api/getcase`);
+      const res = await axios.get(`${domain}/getcase`);
       setProducts(res.data);
     } catch (error) {
       console.error("Error fetching product data:", error);
@@ -51,7 +51,7 @@ const Product4 = () => {
 
       console.log(data);
       const domain=Ips();
-      await axios.post(`${domain}/api/add-to-cart`, data, config);
+      await axios.post(`${domain}/add-to-cart`, data, config);
       alert("Product added to cart successfully!");
     } catch (error) {
       console.error("Error adding product to cart:", error);

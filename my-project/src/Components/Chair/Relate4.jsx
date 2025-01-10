@@ -10,7 +10,7 @@ const Relate4 = () => {
   const getCase = async () => {
     try {
       const domain=Ips();
-      const res = await axios.get(`${domain}/api/getcase`);
+      const res = await axios.get(`${domain}/getcase`);
       setProducts(res.data);
     } catch (error) {
       console.error("Error fetching product data:", error);
