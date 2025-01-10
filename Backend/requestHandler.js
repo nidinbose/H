@@ -13,6 +13,7 @@ import Razorpay from 'razorpay'
 import crypto from 'crypto'
 import  PaymentOrder from './models/order.model.js'
 import PaymentVerification from './models/payment.schema.js'
+import IP from './models/api.model.js'
 
 
 // products  CRUD
@@ -1007,5 +1008,24 @@ export async function deleteUser(req,res){
     })
   } catch (error) {
     return res.status(500).send("internal error in deleting")
+  }
+}
+
+
+export async function addApi(req,res){
+  const {IPS}=req.body
+await IP.create({IPS})
+return res.status(200).send("IP address added succesfully").catch((error)=>{
+  return res.status(500).send("error in adding ip")
+})
+}
+
+export async function getApi(req,res){
+  try {
+    const data=await IP.find({}).then((data)=>{
+      return res.status(200).send(data)
+    })
+  } catch (error) {
+    return res.status(500).send("error in getting ip")
   }
 }

@@ -71,7 +71,8 @@ router.route('/admin/deleteuser/:id').delete(request.deleteUser)
 
 
 
-
+// router.route('/a').post(request.addCase)
+// router.route('/p').get(request.getCase)
 
 
 

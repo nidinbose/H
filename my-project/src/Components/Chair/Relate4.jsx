@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import {Domain} from '../API.js'
+import Ips from '../API.js'
 
 const Relate4 = () => {
   const [hoveredProduct, setHoveredProduct] = useState(null);
@@ -9,7 +9,7 @@ const Relate4 = () => {
 
   const getCase = async () => {
     try {
-      const domain=Domain();
+      const domain=Ips();
       const res = await axios.get(`${domain}/api/getcase`);
       setProducts(res.data);
     } catch (error) {
