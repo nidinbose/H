@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import {Domain} from '../API.js'
 
 const Relate4 = () => {
   const [hoveredProduct, setHoveredProduct] = useState(null);
@@ -8,7 +9,8 @@ const Relate4 = () => {
 
   const getCase = async () => {
     try {
-      const res = await axios.get("http://16.170.206.64:80/api/getcase");
+      const domain=Domain();
+      const res = await axios.get(`${domain}/api/getcase`);
       setProducts(res.data);
     } catch (error) {
       console.error("Error fetching product data:", error);
