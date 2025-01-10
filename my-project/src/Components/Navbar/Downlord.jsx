@@ -40,22 +40,17 @@ const Download = () => {
     <div className="min-h-screen bg-black py-10">
   <div className="container mx-auto">
     <h1 className="text-4xl font-bold text-white mb-8 text-center">Download Gallery</h1>
-
-    {/* Gallery Grid */}
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
       {galleryItems.map((item, index) => (
         <div
           key={index}
           className="group relative overflow-hidden border border-red-600 bg-white/10 text-red-600"
         >
-          {/* Image */}
-          <img
+              <img
             src={item.url}
             alt={item.title}
             className="w-full h-64 object-cover transition-transform transform group-hover:scale-105 text-red-600"
           />
-
-          {/* Download Button */}
           <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity">
             <button
               onClick={() => handleDownload(item.url, item.title)}
@@ -64,8 +59,6 @@ const Download = () => {
               Download
             </button>
           </div>
-
-          {/* Title */}
           <div className="absolute bottom-0 left-0 w-full p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out bg-black/90">
             <h2 className="text-lg font-semibold text-red">{item.title}</h2>
           </div>

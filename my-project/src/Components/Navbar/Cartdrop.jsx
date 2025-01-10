@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import Ips from '../API.js';
 
 const CartComponent = () => {
   const [cartItems, setCartItems] = useState([]);
   const [total, setTotal] = useState(0);
-  const userId = localStorage.getItem("userId"); // Get userId from local storage
-  const token = localStorage.getItem("token"); // Assuming token is stored in localStorage
-
+  const userId = localStorage.getItem("userId"); 
+  const token = localStorage.getItem("token"); 
   const getCartItems = async () => {
     try {
-      const response = await axios.get(`http://localhost:3003/api/cart/${userId}`, {
+      const domain=Ips();
+      const response = await axios.get(`${domain}cart/${userId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCartItems(response.data.items);
@@ -30,12 +31,13 @@ const CartComponent = () => {
 
   const removeFromCart = async (productId) => {
     try {
+      const domain=Ips();
       await axios.post(
-        'http://localhost:3003/api/remove-from-cart',
+        `${domain}remove-from-cart`,
         { userId, productId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      getCartItems(); // Fetch updated cart after removal
+      getCartItems();
     } catch (err) {
       console.error("Error removing item:", err);
     }
@@ -62,8 +64,7 @@ const CartComponent = () => {
           </div>
           <div className="absolute w-full rounded-b border-t-0 z-10">
             <div className="shadow-xl w-64">
-              {/* Product Items */}
-              {cartItems.map((item) => (
+                          {cartItems.map((item) => (
                 <div key={item.productId} className="p-2 flex bg-white hover:bg-gray-100 cursor-pointer border-b border-gray-100">
                   <div className="p-2 w-12">
                     <img src={item.imageLink} alt={item.name} />
@@ -100,8 +101,7 @@ const CartComponent = () => {
                 </div>
               ))}
 
-              {/* Checkout Button */}
-              <div className="p-4 justify-center flex">
+                           <div className="p-4 justify-center flex">
                 <button className="text-base hover:scale-110 focus:outline-none flex justify-center px-4 py-2 rounded font-bold cursor-pointer hover:bg-red-500 hover:text-teal-100 bg-white text-red-500 border duration-200 ease-in-out border-teal-600 transition">
                   Checkout INR : {total.toFixed(2)}
                 </button>

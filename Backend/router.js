@@ -47,12 +47,12 @@ router.route('/updateaddress/:id').patch(request.updateAddress)
 
 
 
-// router.route('/payment/upi-payment').post(request.upiPayment)
+router.route('/payment/upi-payment').post(request.upiPayment)
 router.route('/getuserdata/:id').get(request.getUserData)
 
 
-// router.route('/payment/createorder').post(request.razorpayPayment)
-// router.route('/verifypayment').post(request.verifyPayment)
+router.route('/payment/createorder').post(request.razorpayPayment)
+router.route('/verifypayment').post(request.verifyPayment)
 router.route('/orders/:userId').get(request.viewOrdersByUserId)
 router.route('/admin/updatestatus/:orderId').patch(request.updateStatus)
 router.route('/clear-cart/:userId').delete(request.deleteFromCart)

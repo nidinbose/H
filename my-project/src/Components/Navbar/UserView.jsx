@@ -1,64 +1,66 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Ensure useNavigate is imported
+import { useNavigate } from 'react-router-dom'; 
+import Ips from '../API.js';
 
 const UserView = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null); // Initialize as null
-  const [loading, setLoading] = useState(true); // Add loading state
-  const [error, setError] = useState(null); // Add error state
+  const [user, setUser] = useState(null); 
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null);
 
   const verification = async () => {
-    const token = localStorage.getItem('userToken'); // Retrieve token from localStorage
+    const token = localStorage.getItem('userToken'); 
     console.log(token);
     
-    if (!token) {  // Check for token correctly
+    if (!token) { 
       alert("Please login");
-      navigate('/login'); // Redirect to login if token is missing
+      navigate('/login'); 
       return;
     }
 
     try {
+      const domain=Ips();
       const res = await axios.post(
-        `http://localhost:3003/api/home`, // Replace with your backend API endpoint
+        `${domain}home`, 
         {},
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Send token in Authorization header
+            Authorization: `Bearer ${token}`, 
             "Content-Type": "application/json",
           },
         }
       );
       console.log(res);
-      setUser(res.data); // Set user data from response
+      setUser(res.data); 
     } catch (error) {
       console.error("Error fetching user data:", error);
-      setError("Failed to fetch user data."); // Set error message
+      setError("Failed to fetch user data."); 
     } finally {
-      setLoading(false); // Stop loading after the request
+      setLoading(false);
     }
   };
 
-  // Logout function
+  
   const userLogout = () => {
-    localStorage.removeItem("userToken"); // Remove token on logout
-    navigate('/login'); // Redirect to login page
+    localStorage.removeItem("userToken"); 
+    navigate('/login');
   };
 
   useEffect(() => {
-    verification(); // Call verification when the component mounts
+    verification(); 
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>; // Display loading state
+    return <div>Loading...</div>; 
   }
 
   if (error) {
-    return <div className="text-red-500">{error}</div>; // Display error message if there's an error
+    return <div className="text-red-500">{error}</div>; 
   }
 
   if (!user) {
-    return <div>No user data available.</div>; // Handle case where user data is not available
+    return <div>No user data available.</div>; 
   }
 
   return (
@@ -75,7 +77,7 @@ const UserView = () => {
       {/* Logout button */}
       <button 
         className="mt-6 bg-blue-500 text-white py-2 px-4 rounded"
-        onClick={userLogout} // Call userLogout function on button click
+        onClick={userLogout}
       >
         Logout
       </button>

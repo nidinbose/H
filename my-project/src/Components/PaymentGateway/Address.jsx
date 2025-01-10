@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FaTrashAlt } from "react-icons/fa";
+import Ips from "../API.js";
 
 const Address = () => {
   const [addresses, setAddresses] = useState([]);
@@ -17,7 +18,8 @@ const Address = () => {
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
-        const response = await axios.get(`http://localhost:3003/api/getaddress/${userId}`, {
+        const domain=Ips();
+        const response = await axios.get(`${domain}getaddress/${userId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setAddresses(Array.isArray(response.data) ? response.data : [response.data]);
@@ -31,7 +33,8 @@ const Address = () => {
 
     const fetchCartItems = async () => {
       try {
-        const response = await axios.get(`http://localhost:3003/api/cart/${userId}`, {
+        const domain=Ips();
+        const response = await axios.get(`${domain}cart/${userId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setCartItems(response.data.items);
@@ -60,7 +63,8 @@ const Address = () => {
     };
 
     try {
-      const response = await axios.post("http://localhost:3003/api/addaddress", newAddress, {
+      const domain=Ips();
+      const response = await axios.post(`${domain}addaddress`, newAddress, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setAddresses((prevAddresses) => [...prevAddresses, response.data]);
@@ -83,8 +87,9 @@ const Address = () => {
     };
 
     try {
+      const domain=Ips();
       const response = await axios.patch(
-        `http://localhost:3003/api/updateaddress/${editAddressData._id}`,
+        `${domain}updateaddress/${editAddressData._id}`,
         updatedAddress,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -101,7 +106,8 @@ const Address = () => {
 
   const handleDeleteAddress = async (addressId) => {
     try {
-      await axios.delete(`http://localhost:3003/api/deleteaddress/${addressId}`, {
+      const domain=Ips();
+      await axios.delete(`${domain}deleteaddress/${addressId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setAddresses((prevAddresses) => prevAddresses.filter((address) => address._id !== addressId));

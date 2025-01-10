@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { MdOutlineCancelScheduleSend } from "react-icons/md";
+import Ips from '../API.js';
 
 const ViewOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -13,13 +14,14 @@ const ViewOrders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
+        const domain=Ips();
         if (!userId) {
           setError('User not logged in.');
           setLoading(false);
           return;
         }
-
-        const response = await axios.get(`http://localhost:3003/api/orders/${userId}`);
+  
+        const response = await axios.get(`${domain}orders/${userId}`);
 
         if (response.data && response.data.orders) {
           setOrders(response.data.orders);
@@ -40,7 +42,8 @@ const ViewOrders = () => {
 
   const handleCancelOrder = async (orderId) => {
     try {
-      const response = await axios.post(`http://localhost:3003/api/cancalorder/${orderId}`);
+      const domain=Ips();
+      const response = await axios.post(`${domain}cancalorder/${orderId}`);
 
       if (response.data.success) {
         setOrders(orders.map(order => 

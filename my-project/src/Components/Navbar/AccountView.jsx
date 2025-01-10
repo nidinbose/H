@@ -23,7 +23,8 @@ const AccountView = () => {
       try {
         const token = localStorage.getItem("token");
         if (token) {
-          const response = await axios.get("http://localhost:3003/api/home", {
+          const domain=Ips();
+          const response = await axios.get(`${domain}home`, {
             headers: { Authorization: `Bearer ${token}` },
           });
           const { username, email, phone } = response.data.user;
@@ -42,7 +43,8 @@ const AccountView = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.get("/api/logout");
+      const domain=Ips();
+      await axios.get(`${domain}logout`);
       localStorage.removeItem("token");
       localStorage.removeItem("user");
       setUser(null);

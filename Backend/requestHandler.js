@@ -773,22 +773,22 @@ export async function updateAddress(req,res){
 
 
 
-// export async function upiPayment(req, res) {
-//   try {
-//         const { upiId, amount, name } = req.body;
+export async function upiPayment(req, res) {
+  try {
+        const { upiId, amount, name } = req.body;
 
-//        if (!upiId || !amount || !name) {
-//           return res.status(400).json({ message: 'All fields are required' });
-//       }
+       if (!upiId || !amount || !name) {
+          return res.status(400).json({ message: 'All fields are required' });
+      }
 
-//       const upiUrl = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR`;
+      const upiUrl = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR`;
 
-//       res.status(200).json({ upiUrl });
-//   } catch (error) {
-//       console.error("Error generating UPI URL:", error);
-//       res.status(500).json({ message: 'Server error while generating UPI URL' });
-//   }
-// }
+      res.status(200).json({ upiUrl });
+  } catch (error) {
+      console.error("Error generating UPI URL:", error);
+      res.status(500).json({ message: 'Server error while generating UPI URL' });
+  }
+}
 
 
 
@@ -810,87 +810,87 @@ export async function getUserData(req,res){
 // PAYMENTS
 
 
-// export async function razorpayPayment(req, res) {
-//   try {
-//     const {userId, amount, currency = "INR", items,address } = req.body;
-//     if (!amount || !items || !Array.isArray(items)) {
-//       return res.status(400).json({ message: "Invalid request data. Amount and items are required." });
-//     }
-//     console.log("Request Body:", req.body);
+export async function razorpayPayment(req, res) {
+  try {
+    const {userId, amount, currency = "INR", items,address } = req.body;
+    if (!amount || !items || !Array.isArray(items)) {
+      return res.status(400).json({ message: "Invalid request data. Amount and items are required." });
+    }
+    console.log("Request Body:", req.body);
 
-//        const instance = new Razorpay({
-//       key_id: process.env.RAZORPAY_KEY_ID,
-//       key_secret: process.env.RAZORPAY_KEY_SECRET,
-//     });
+       const instance = new Razorpay({
+      key_id: process.env.RAZORPAY_KEY_ID,
+      key_secret: process.env.RAZORPAY_KEY_SECRET,
+    });
 
-//       const orderOptions = {
-//       amount: amount * 100, 
-//       currency,
-//       receipt: crypto.randomBytes(10).toString("hex"), 
-//       payment_capture: 1,
-//     };
-//     instance.orders.create(orderOptions, async (error, order) => {
-//       if (error) {
-//         console.error("Razorpay Order Creation Error:", error);
-//         return res.status(500).json({ message: "Error creating Razorpay order." });
-//       }
+      const orderOptions = {
+      amount: amount * 100, 
+      currency,
+      receipt: crypto.randomBytes(10).toString("hex"), 
+      payment_capture: 1,
+    };
+    instance.orders.create(orderOptions, async (error, order) => {
+      if (error) {
+        console.error("Razorpay Order Creation Error:", error);
+        return res.status(500).json({ message: "Error creating Razorpay order." });
+      }
 
-//       console.log("Razorpay Order:", order);
-//       const paymentOrder = new PaymentOrder({
-//         razorpayOrderId: order.id,
-//         amount: order.amount,
-//         currency: order.currency,
-//         userId,
-//         items,
-//         address,
-//         receipt: order.receipt,
-//         status: order.status,
-//       });
+      console.log("Razorpay Order:", order);
+      const paymentOrder = new PaymentOrder({
+        razorpayOrderId: order.id,
+        amount: order.amount,
+        currency: order.currency,
+        userId,
+        items,
+        address,
+        receipt: order.receipt,
+        status: order.status,
+      });
 
-//       try {
-//         const savedOrder = await paymentOrder.save();
-//         console.log("Saved Order:", savedOrder);
-//         return res.status(200).json({ order });
-//       } catch (dbError) {
-//         console.error("Database Save Error:", dbError);
-//         if (dbError.errors) {
-//           console.error("Validation Errors:", dbError.errors);
-//         }
+      try {
+        const savedOrder = await paymentOrder.save();
+        console.log("Saved Order:", savedOrder);
+        return res.status(200).json({ order });
+      } catch (dbError) {
+        console.error("Database Save Error:", dbError);
+        if (dbError.errors) {
+          console.error("Validation Errors:", dbError.errors);
+        }
 
-//         return res.status(500).json({ message: "Error saving order to the database." });
-//       }
-//     });
-//   } catch (error) {
-//     console.error("Internal Server Error:", error);
-//     return res.status(500).json({ message: "Internal Server Error!" });
-//   }
-// }
+        return res.status(500).json({ message: "Error saving order to the database." });
+      }
+    });
+  } catch (error) {
+    console.error("Internal Server Error:", error);
+    return res.status(500).json({ message: "Internal Server Error!" });
+  }
+}
 
 
-// export async function verifyPayment(req, res) {
-//   try {
-//     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+export async function verifyPayment(req, res) {
+  try {
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
-//     const body = razorpay_order_id + "|" + razorpay_payment_id;
-//     const expectedSignature = crypto
-//       .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-//       .update(body.toString())
-//       .digest("hex");
+    const body = razorpay_order_id + "|" + razorpay_payment_id;
+    const expectedSignature = crypto
+      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+      .update(body.toString())
+      .digest("hex");
 
-//     if (expectedSignature === razorpay_signature) {
-//       await PaymentOrder.updateOne(
-//         { razorpayOrderId: razorpay_order_id },
-//         { status: 'paid', paymentId: razorpay_payment_id }
-//       );
-//       res.status(200).json({ message: "Payment verified successfully" });
-//     } else {
-//       res.status(400).json({ message: "Invalid signature" });
-//     }
-//   } catch (error) {
-//     console.error("Payment verification error:", error);
-//     res.status(500).json({ message: "Payment verification failed" });
-//   }
-// }
+    if (expectedSignature === razorpay_signature) {
+      await PaymentOrder.updateOne(
+        { razorpayOrderId: razorpay_order_id },
+        { status: 'paid', paymentId: razorpay_payment_id }
+      );
+      res.status(200).json({ message: "Payment verified successfully" });
+    } else {
+      res.status(400).json({ message: "Invalid signature" });
+    }
+  } catch (error) {
+    console.error("Payment verification error:", error);
+    res.status(500).json({ message: "Payment verification failed" });
+  }
+}
 
 
 export async function viewOrdersByUserId(req, res) {
