@@ -31,10 +31,10 @@ const Overview3 = () => {
   >
     REWARD WITH SANTICS GAMING
   </motion.h3>
-      {/* Grid Layout */}
+  
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          {/* 3 Column Grid strt */}
+       
           <img
             src="https://dlcdnrog.asus.com/rog/media/1704496493441.webp"
             alt="Placeholder 1"
@@ -53,7 +53,7 @@ const Overview3 = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* 2 Column Grid with Responsive Images */}
+          
           <img
             src="https://i.ytimg.com/vi/AVKfB1bPx3U/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLA3jiprSzG1KAel9msR5fIsI1zAEA"
             alt="Placeholder 4"

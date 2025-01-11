@@ -179,7 +179,7 @@ const Login = () => {
           </Typography>
         </form>
       </div>
-      <div><h1>User Email : user2@gmail.com</h1>
+      <div><h1>User Email : user3@gmail.com</h1>
       <h2>User Password : ASDasd123#</h2>
 
       <Link  to={`/adminlogin`} className="flex items-end justify-end"> click for admin login <button className=" flex justify-end">Admin</button></Link>

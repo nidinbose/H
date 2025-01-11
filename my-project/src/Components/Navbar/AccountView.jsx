@@ -44,14 +44,32 @@ const AccountView = () => {
 
   const handleLogout = async () => {
     try {
-      const domain=Ips();
-      await axios.get(`${domain}logout`);
+      const domain = Ips();
+      const token = localStorage.getItem("token");
+  
+      if (!token) {
+        console.warn("No token found. Redirecting to login...");
+        navigate("/");
+        return;
+      }
+  
+      
+      await axios.get(`${domain}logout`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+  
+      
       localStorage.removeItem("token");
       localStorage.removeItem("user");
       setUser(null);
       navigate("/");
     } catch (error) {
       console.error("Error logging out:", error);
+  
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      setUser(null);
+      navigate("/");
     }
   };
 
