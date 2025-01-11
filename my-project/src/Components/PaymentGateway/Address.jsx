@@ -25,7 +25,7 @@ const Address = () => {
         setAddresses(Array.isArray(response.data) ? response.data : [response.data]);
       } catch (error) {
         console.error("Error fetching addresses:", error);
-        if (error.response && error.response.status === 401) {
+        if (error.response?.status === 401) {
           navigate("/login");
         }
       }
@@ -37,10 +37,10 @@ const Address = () => {
         const response = await axios.get(`${domain}cart/${userId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setCartItems(response.data.items);
+        setCartItems(response.data.items || []);
       } catch (error) {
         console.error("Error fetching cart items:", error);
-        if (error.response && error.response.status === 401) {
+        if (error.response?.status === 401) {
           navigate("/login");
         }
       }
@@ -69,9 +69,9 @@ const Address = () => {
       });
       setAddresses((prevAddresses) => [...prevAddresses, response.data]);
       setShowForm(false);
-      event.target.reset(); 
+      event.target.reset();
     } catch (error) {
-      console.error("Error adding address", error);
+      console.error("Error adding address:", error);
     }
   };
 
@@ -98,9 +98,9 @@ const Address = () => {
       );
       setEditAddressData(null);
       setShowForm(false);
-      event.target.reset(); 
+      event.target.reset();
     } catch (error) {
-      console.error("Error updating address", error);
+      console.error("Error updating address:", error);
     }
   };
 
@@ -113,14 +113,14 @@ const Address = () => {
       setAddresses((prevAddresses) => prevAddresses.filter((address) => address._id !== addressId));
       if (selectedAddress === addressId) setSelectedAddress(null);
     } catch (error) {
-      console.error("Error deleting address", error);
+      console.error("Error deleting address:", error);
     }
   };
 
   const handleSelectAddress = (address) => {
     setSelectedAddress(address._id);
     setEditAddressData(address);
-    setShowForm(true); 
+    setShowForm(true);
   };
 
   const handleProceedToPayment = () => {
@@ -130,7 +130,7 @@ const Address = () => {
   return (
     <div className="font-[sans-serif] bg-black">
       <div className="flex max-sm:flex-col gap-12 max-lg:gap-4 h-full">
-             <div className="bg-gradient-to-r from-black via-black to-black sm:h-screen sm:sticky sm:top-0 lg:min-w-[370px] sm:min-w-[300px]">
+        <div className="bg-gradient-to-r from-black via-black to-black sm:h-screen sm:sticky sm:top-0 lg:min-w-[370px] sm:min-w-[300px]">
           <div className="relative h-full">
             <div className="px-4 py-8 sm:overflow-auto sm:h-[calc(100vh-60px)]">
               {cartItems.map((item) => (
@@ -151,14 +151,13 @@ const Address = () => {
             </div>
             <div className="md:absolute md:left-0 md:bottom-0 bg-gray-800 w-full p-4">
               <h4 className="text-base text-white text-end">
-                Total <span className="ml-auto ">INR : {cartItems.reduce((total, item) => total + item.price * item.quantity, 0)}</span>
+                Total <span className="ml-auto">INR : {cartItems.reduce((total, item) => total + item.price * item.quantity, 0)}</span>
               </h4>
             </div>
           </div>
         </div>
         <div className="max-w-4xl w-full h-max rounded-md px-4 py-8 sticky top-0 bg-white/20">
           <h2 className="text-2xl font-bold text-red-500">Complete your order</h2>
-
           {addresses.length > 0 ? (
             <div className="mt-4 xl:w-96 w-auto">
               <h3 className="text-base text-gray-300 mb-4">Saved Addresses</h3>
@@ -166,16 +165,26 @@ const Address = () => {
                 <div
                   key={addr._id}
                   onClick={() => handleSelectAddress(addr)}
-                  className={`p-4 border rounded-md mb-2 cursor-pointer ${selectedAddress === addr._id ? "border-red-500" : "border-gray-300"}`}
+                  className={`p-4 border rounded-md mb-2 cursor-pointer ${
+                    selectedAddress === addr._id ? "border-red-500" : "border-gray-300"
+                  }`}
                 >
                   <div className="flex justify-between">
                     <div>
-                      <h4 className="font-bold text-red-500 ">{addr.name}</h4>
+                      <h4 className="font-bold text-red-500">{addr.name}</h4>
                       <p className="text-sm text-white/60">{addr.addressLine}</p>
-                      <p className="text-sm text-white/60">{addr.city}, {addr.state} {addr.zipCode}</p>
+                      <p className="text-sm text-white/60">
+                        {addr.city}, {addr.state} {addr.zipCode}
+                      </p>
                       <p className="text-sm text-white/60">Phone: {addr.phone}</p>
                     </div>
-                    <button onClick={(e) => { e.stopPropagation(); handleDeleteAddress(addr._id); }} className="text-red-500 hover:text-red-700">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteAddress(addr._id);
+                      }}
+                      className="text-red-500 hover:text-red-700"
+                    >
                       <FaTrashAlt />
                     </button>
                   </div>
@@ -185,30 +194,71 @@ const Address = () => {
           ) : (
             <p className="text-gray-300">No addresses found.</p>
           )}
-          <div className="mt-8">
-            <button onClick={() => setShowForm((prev) => !prev)} className="px-4 py-3 bg-gray-500 text-white rounded-md text-sm hover:bg-red-600">
-              {showForm ? "Hide Form" : editAddressData ? "Edit Address" : "Add Address"}
-            </button>
-
-            {showForm && (
-              <form onSubmit={editAddressData ? handleEditAddress : handleAddAddress} className="mt-4 space-y-4">
-                <input type="text" name="name" defaultValue={editAddressData?.name || ""} placeholder="First Name" required className="border rounded-md p-2 w-full bg-white/10 text-white" />
-                <input type="text" name="addressLine" defaultValue={editAddressData?.addressLine || ""} placeholder="Address Line" required className="border rounded-md p-2 w-full bg-white/10 text-white" />
-                <input type="text" name="city" defaultValue={editAddressData?.city || ""} placeholder="City" required className="border rounded-md p-2 w-full bg-white/10 text-white" />
-                <input type="text" name="state" defaultValue={editAddressData?.state || ""} placeholder="State" required className="border rounded-md p-2 w-full bg-white/10 text-white" />
-                <input type="text" name="zipCode" defaultValue={editAddressData?.zipCode || ""} placeholder="Zip Code" required className="border rounded-md p-2 w-full bg-white/10 text-white" />
-                <input type="tel" name="phone" defaultValue={editAddressData?.phone || ""} placeholder="Phone" required className="border rounded-md p-2 w-full bg-white/10 text-white" />
-                <button type="submit" className="px-4 py-3 bg-green-500 text-white rounded-md text-sm hover:bg-green-600">
-                  {editAddressData ? "Update Address" : "Add Address"}
-                </button>
-              </form>
-            )}
-          </div>
-
+          {(addresses.length === 0 || showForm) && (
+            <form
+              onSubmit={editAddressData ? handleEditAddress : handleAddAddress}
+              className="mt-4 space-y-4"
+            >
+              <input
+                type="text"
+                name="name"
+                defaultValue={editAddressData?.name || ""}
+                placeholder="Name"
+                required
+                className="border rounded-md p-2 w-full bg-white/10 text-white"
+              />
+              <input
+                type="text"
+                name="addressLine"
+                defaultValue={editAddressData?.addressLine || ""}
+                placeholder="Address Line"
+                required
+                className="border rounded-md p-2 w-full bg-white/10 text-white"
+              />
+              <input
+                type="text"
+                name="city"
+                defaultValue={editAddressData?.city || ""}
+                placeholder="City"
+                required
+                className="border rounded-md p-2 w-full bg-white/10 text-white"
+              />
+              <input
+                type="text"
+                name="state"
+                defaultValue={editAddressData?.state || ""}
+                placeholder="State"
+                required
+                className="border rounded-md p-2 w-full bg-white/10 text-white"
+              />
+              <input
+                type="text"
+                name="zipCode"
+                defaultValue={editAddressData?.zipCode || ""}
+                placeholder="Zip Code"
+                required
+                className="border rounded-md p-2 w-full bg-white/10 text-white"
+              />
+              <input
+                type="text"
+                name="phone"
+                defaultValue={editAddressData?.phone || ""}
+                placeholder="Phone"
+                required
+                className="border rounded-md p-2 w-full bg-white/10 text-white"
+              />
+              <button
+                type="submit"
+                className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700"
+              >
+                {editAddressData ? "Save Changes" : "Add Address"}
+              </button>
+            </form>
+          )}
           <button
             onClick={handleProceedToPayment}
             disabled={!selectedAddress}
-            className={`px-4 py-3 text-white rounded-md mt-4 ${selectedAddress ? "bg-red-500 hover:bg-red-600" : "bg-gray-500 cursor-not-allowed"}`}
+            className="mt-4 bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-700 disabled:bg-gray-500 disabled:cursor-not-allowed"
           >
             Proceed to Payment
           </button>
